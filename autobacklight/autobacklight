@@ -67,7 +67,7 @@ def toggleAutolight(event):
 def checkLight():
     if autolightenabled:
         device = pyudev.Device.from_path(context, path)
-        ambientlight = int(device.attributes["in_intensity_both_raw"])
+        ambientlight = device.attributes.asint("in_intensity_both_raw")
 
         backlight = mappingFunction(ambientlight)
 
