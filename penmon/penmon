@@ -1,9 +1,11 @@
 #!/usr/bin/python
 
 #####CONFIGURATION#####
-screen="LVDS1"
+screen="eDP-1"
 inputnames=[
-        "MICROSOFT SAM"
+        "NTRG0001:01 1B96:1B05 Pen stylus",
+        "NTRG0001:01 1B96:1B05 Pen eraser",
+        "NTRG0001:01 1B96:1B05"
         ]
 
 #####PROGRAM CODE#####
