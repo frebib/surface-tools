@@ -5,9 +5,16 @@ sensorname="accel_3d"
 
 screenname="eDP-1"
 
+inputnames=[
+        "NTRG0001:01 1B96:1B05 Pen stylus",
+        "NTRG0001:01 1B96:1B05 Pen eraser",
+        "NTRG0001:01 1B96:1B05"
+        ]
+
 #####PROGRAM CODE#####
 #Do not change unless you know what you are doing!
 
+xinput="/usr/bin/xinput"
 xrandr="/usr/bin/xrandr"
 
 resourcepaths=[
@@ -60,6 +67,13 @@ def getOrientation(accelX, accelY, accelZ):
 def rotate(orientation):
     if orientation in orientations:
         subprocess.call([xrandr, "--output", screenname, "--rotate", orientation])
+        for input_ in inputnames:
+            pattern = re.compile(input_ + " *\tid=([0-9]+)\t")
+            output = subprocess.check_output([xinput, "list"]).decode("unicode_escape")
+            matches = re.findall(pattern, output)
+
+            for id in matches:
+                subprocess.call([xinput, "map-to-output", id, screenname])
 
 def toggleRotLock(event):
     global rotlock
