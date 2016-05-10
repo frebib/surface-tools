@@ -14,13 +14,16 @@ inputnames=[
 #####PROGRAM CODE#####
 #Do not change unless you know what you are doing!
 
+import os.path
+
 xinput="/usr/bin/xinput"
 xrandr="/usr/bin/xrandr"
 
 resourcepaths=[
 	"./",
 	"/usr/share/autorotate/",
-	"/usr/local/share/autorotate/"
+	"/usr/local/share/autorotate/",
+	os.path.expanduser("~/.local/share/surfacetools/autorotate/")
 	]
 
 orientations=[
@@ -35,7 +38,6 @@ rotlock=False
 import pyudev
 import re
 import subprocess
-import os.path
 import signal
 from gi.repository import Gtk, GdkPixbuf, GObject
 

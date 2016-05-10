@@ -11,12 +11,15 @@ fadetime=1000
 #####PROGRAM CODE#####
 #Do not change unless you know what you are doing
 
+import os.path
+
 xbacklight="/usr/bin/xbacklight"
 
 resourcepaths=[
             "./",
             "/usr/share/autobacklight/",
-            "/usr/local/share/autobacklight/"
+            "/usr/local/share/autobacklight/",
+            os.path.expanduser("~/.local/share/surfacetools/autobacklight/")
             ]
 
 def mappingFunction(ambientlight):
@@ -28,7 +31,6 @@ import pyudev
 import subprocess
 import signal
 import os
-import os.path
 from gi.repository import Gtk, GdkPixbuf, GObject
 
 hasAppIndicator = True
