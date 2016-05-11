@@ -8,18 +8,19 @@ onhold  = 'temp=`mktemp`; scrot -e "mv \$f $temp"; convert "$temp" "$temp.pdf"; 
 ##################
 
 import subprocess
+import re
 
-click = b"> 02 80 20 0F 00 0B 00 04 00 1B 1D 00 08 00 6F 00 00 00 00 00"
-hold  = b"> 02 80 20 0F 00 0B 00 04 00 1B 1D 00 08 00 6D 00 00 00 00 00"
+click = r"> 02 8(0 20 0F 00 0B 00 04 00 1B 1D|1 20 0F 00 0B 00 04 00 1B 19) 00 08 00 6F 00 00 00 00 00"
+hold  = r"> 02 80 20 0F 00 0B 00 04 00 1B 1D 00 08 00 6D 00 00 00 00 00"
 
 proc = subprocess.Popen("hcidump att -R".split(), stdout=subprocess.PIPE)
 
 while True:
-    pkt = proc.stdout.readline().strip()
+    pkt = proc.stdout.readline().strip().decode("utf-8")
     #print(pkt)
-    if pkt == click:
+    if re.match(click, pkt):
         print("click")
         subprocess.call(onclick.split())
-    elif pkt == hold:
+    elif re.match(hold, pkt):
         print("hold")
         subprocess.call(onhold, shell=True)
