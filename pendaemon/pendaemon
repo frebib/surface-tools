@@ -1,0 +1,25 @@
+#!/usr/bin/python
+
+##################
+
+onclick = 'i3-msg workspace 99:; exec xournal'
+onhold  = 'temp=`mktemp`; scrot -e "mv \$f $temp"; convert "$temp" "$temp.pdf"; ' + onclick + ' "$temp.pdf"'
+
+##################
+
+import subprocess
+
+click = b"> 02 80 20 0F 00 0B 00 04 00 1B 1D 00 08 00 6F 00 00 00 00 00"
+hold  = b"> 02 80 20 0F 00 0B 00 04 00 1B 1D 00 08 00 6D 00 00 00 00 00"
+
+proc = subprocess.Popen("hcidump att -R".split(), stdout=subprocess.PIPE)
+
+while True:
+    pkt = proc.stdout.readline().strip()
+    #print(pkt)
+    if pkt == click:
+        print("click")
+        subprocess.call(onclick.split())
+    elif pkt == hold:
+        print("hold")
+        subprocess.call(onhold, shell=True)
