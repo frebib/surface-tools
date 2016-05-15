@@ -69,6 +69,12 @@ def getOrientation(accelX, accelY, accelZ):
 def rotate(orientation):
     if orientation in orientations:
         subprocess.call([xrandr, "--output", screenname, "--rotate", orientation])
+
+        for path in resourcepaths[::-1]:
+            script = path + "rotated-hook.sh"
+            if os.path.isfile(script):
+                subprocess.call([script, orientation])
+
         for input_ in inputnames:
             pattern = re.compile(input_ + " *\tid=([0-9]+)\t")
             output = subprocess.check_output([xinput, "list"]).decode("unicode_escape")
